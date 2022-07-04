@@ -10,6 +10,7 @@ import org.takes.http.FtBasic;
 import org.takes.misc.Opt;
 import org.takes.rs.RsHtml;
 import org.takes.tk.TkFiles;
+import org.takes.tk.TkSslOnly;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +27,11 @@ public final class PacksServerPlugin extends JavaPlugin {
         saveDefaultConfig();
 
         int port = getConfig().getInt("port");
+        boolean sslEnabled = getConfig().getBoolean("ssl-only");
 
         File files = new File(getDataFolder(), "files");
         if(files.mkdir()) {
-            getLogger().info("created a files successfully.");
+            getLogger().info("created files folder...");
         }
 
 
@@ -46,9 +48,11 @@ public final class PacksServerPlugin extends JavaPlugin {
                 fallback
         );
 
+        Take newTake = sslEnabled ? new TkSslOnly(take) : take;
+
         getServer().getScheduler().runTaskAsynchronously(this, () -> {
             try {
-                new FtBasic(take, port).start(this.exit::get);
+                new FtBasic(newTake, port).start(this.exit::get);
             } catch (IOException e) {
                getSLF4JLogger().error("Error happened while starting a webserver.", e);
             }
