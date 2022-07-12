@@ -10,4 +10,4 @@ Here you go! Now you can access them from http://ip:port/filename.
 You can also enable ssl only mode in config.yml.
 
 ## Support
-Do you have any questions? Join our discord: https://discord.gg/VsRz5T67sG
+Do you have any questions? Join our discord: https://discord.decalium.ru
